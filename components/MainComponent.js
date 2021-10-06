@@ -1,14 +1,12 @@
 import Constants from "expo-constants";
 import React, { Component } from "react";
+import Home from './HomeComponent';
 import Directory from "./DirectoryComponent";
 // import { CAMPSITES } from "../shared/campsites";
 import CampsiteInfo from "./CampsiteInfoComponent";
 import { View, Platform } from "react-native";
-import {
-  createStackNavigator,
-  HeaderStyleInterpolator,
-  HeaderTitle,
-} from "react-navigation-stack";
+import { createStackNavigator, HeaderStyleInterpolator, HeaderTitle } from "react-navigation-stack";
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from "react-navigation";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 
@@ -31,7 +29,36 @@ const DirectoryNavigator = createStackNavigator(
   }
 );
 
-const AppNavigator = createAppContainer(DirectoryNavigator);
+const HomeNavigator = createStackNavigator(
+  {
+    Home: { screen: Home },
+    // CampsiteInfo: { screen: CampsiteInfo },
+  },
+  {
+    // initalRouteName: "Directory",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#5637dd",
+      },
+      headerTintColor: "#fff",
+      HeaderTitleStyle: {
+        color: "#fff",
+      },
+    },
+  }
+);
+
+const MainNavigator = createDrawerNavigator(
+{
+  Home: { screen: HomeNavigator },
+  Directory: { screen: DirectoryNavigator }
+},
+{
+  drawerBackgroundColor: '#cec8ff'
+}
+);
+
+const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
   // constructor(props) {
